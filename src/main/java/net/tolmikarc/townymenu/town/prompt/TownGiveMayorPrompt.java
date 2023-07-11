@@ -34,8 +34,10 @@ public class TownGiveMayorPrompt extends SimplePrompt {
 	@SneakyThrows
 	@Override
 	protected @Nullable Prompt acceptValidatedInput(@NotNull ConversationContext context, @NotNull String input) {
-		if (!getPlayer(context).hasPermission("towny.command.town.set.mayor"))
+		if (!getPlayer(context).hasPermission("towny.command.town.set.mayor")) {
+			Common.tell(getPlayer(context), Localization.NO_PERMISSION);
 			return null;
+		}
 
 		if (input.toLowerCase().equals(Localization.CONFIRM)) {
 			Town town = resident.getTown();

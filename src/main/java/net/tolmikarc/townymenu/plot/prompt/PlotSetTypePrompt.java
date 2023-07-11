@@ -19,7 +19,7 @@ import java.util.List;
 
 public class PlotSetTypePrompt extends SimplePrompt {
 
-	private final List<String> plotTypes = Arrays.asList("residential", "commercial", "bank", "farm", "jail", "embassy", "wilds", "inn", "spleef", "arena");
+	private final List<String> plotTypes = Arrays.asList("residential", "commercial", "bank", "farm", "jail", "embassy", "wilds", "inn", "arena");
 
 	TownBlock townBlock;
 
@@ -49,10 +49,27 @@ public class PlotSetTypePrompt extends SimplePrompt {
 	@SneakyThrows
 	@Override
 	protected @Nullable Prompt acceptValidatedInput(@NotNull ConversationContext context, @NotNull String input) {
-		if (!getPlayer(context).hasPermission("towny.command.plot.set." + input.toLowerCase()) || input.equalsIgnoreCase(Localization.CANCEL)) {
+		if (!getPlayer(context).hasPermission("towny.command.plot.set." + input.toLowerCase())) {
+			Common.tell(getPlayer(context), Localization.NO_PERMISSION);
 			return null;
 		}
-		townBlock.setType(TownBlockType.valueOf(input.toUpperCase()));
+		if (input.equalsIgnoreCase(Localization.CANCEL)) {
+			return null;
+		}
+
+		TownBlockType townBlockType = switch (input.toUpperCase()) {
+			case "BANK" -> TownBlockType.BANK;
+			case "COMMERCIAL" -> TownBlockType.COMMERCIAL;
+			case "ARENA" -> TownBlockType.ARENA;
+			case "EMBASSY" -> TownBlockType.EMBASSY;
+			case "WILDS" -> TownBlockType.WILDS;
+			case "INN" -> TownBlockType.INN;
+			case "JAIL" -> TownBlockType.JAIL;
+			case "FARM" -> TownBlockType.FARM;
+			default -> TownBlockType.RESIDENTIAL;
+		};
+
+		townBlock.setType(townBlockType);
 		townBlock.setChanged(true);
 		TownBlockSettingsChangedEvent event = new TownBlockSettingsChangedEvent(townBlock);
 		Bukkit.getServer().getPluginManager().callEvent(event);

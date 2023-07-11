@@ -10,6 +10,7 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.mineacademy.fo.Common;
 import org.mineacademy.fo.conversation.SimplePrompt;
 import org.mineacademy.fo.debug.LagCatcher;
 
@@ -36,7 +37,7 @@ public class TownNamePrompt extends SimplePrompt {
 	protected boolean isInputValid(ConversationContext context, String input) {
 		LagCatcher.start("load-all-town-names");
 		List<String> allTownNames = new ArrayList<>();
-		for (Town town : TownyAPI.getInstance().getDataSource().getTowns())
+		for (Town town : TownyAPI.getInstance().getTowns())
 			allTownNames.add(town.getName());
 		LagCatcher.end("load-all-town-names");
 		return ((input.length() < TownySettings.getMaxNameLength() && !allTownNames.contains(input)) || input.equalsIgnoreCase(Localization.CANCEL));
@@ -49,9 +50,11 @@ public class TownNamePrompt extends SimplePrompt {
 
 	@Override
 	protected @Nullable Prompt acceptValidatedInput(@NotNull ConversationContext context, @NotNull String input) {
-		if (!getPlayer(context).hasPermission("towny.command.town.set.name") || input.equalsIgnoreCase(Localization.CANCEL))
+		if (!getPlayer(context).hasPermission("towny.command.town.set.name")) {
+			Common.tell(getPlayer(context), Localization.NO_PERMISSION);
 			return null;
-
+		}
+		if (input.equalsIgnoreCase(Localization.CANCEL)) return null;
 
 		try {
 			if (town.getAccount().canPayFromHoldings(TownySettings.getTownRenameCost())) {

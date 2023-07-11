@@ -9,6 +9,7 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.mineacademy.fo.Common;
 import org.mineacademy.fo.Valid;
 import org.mineacademy.fo.conversation.SimplePrompt;
 
@@ -41,6 +42,10 @@ public class TownWithdrawPrompt extends SimplePrompt {
 	@Override
 	protected @Nullable
 	Prompt acceptValidatedInput(@NotNull ConversationContext context, @NotNull String input) {
+		if (!getPlayer(context).hasPermission("towny.command.town.withdraw")) {
+			Common.tell(getPlayer(context), Localization.NO_PERMISSION);
+			return null;
+		}
 		if (input.equalsIgnoreCase(Localization.CANCEL))
 			return null;
 

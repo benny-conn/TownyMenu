@@ -37,7 +37,6 @@ public class TownKickPrompt extends SimplePrompt {
 			tell(Localization.TownConversables.Kick.RESPONSE.replace("{player}", resident.getName()));
 		}
 
-
 		return null;
 	}
 }
