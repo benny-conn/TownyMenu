@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static net.tolmikarc.townymenu.plot.PlotMenu.getItemStackInFourths;
+
 
 public class TownMenu extends Menu {
 
@@ -59,25 +61,22 @@ public class TownMenu extends Menu {
 		List<Resident> allOnlineResidents = new ArrayList<>();
 		LagCatcher.start("load-residents-online");
 		for (Player players : Bukkit.getOnlinePlayers()) {
-			try {
-				allOnlineResidents.add(TownyAPI.getInstance().getDataSource().getResident(players.getName()));
-			} catch (NotRegisteredException e) {
-				e.printStackTrace();
-			}
+			allOnlineResidents.add(TownyAPI.getInstance().getResident(players.getName()));
 		}
 		LagCatcher.end("load-residents-online");
 
 		setSize(9 * 4);
 		setTitle(Localization.TownMenu.MAIN_MENU_TITLE);
 
-		ItemCreator.ItemCreatorBuilder toggleMenuItem = ItemCreator.of(CompMaterial.LEVER, Localization.TownMenu.TOGGLE_MENU_BUTTON, Localization.TownMenu.TOGGLE_MENU_BUTTON_LORE);
-		ItemCreator.ItemCreatorBuilder residentListItem = ItemCreator.of(CompMaterial.PLAYER_HEAD, Localization.TownMenu.RESIDENT_MENU_BUTTON, Localization.TownMenu.RESIDENT_MENU_BUTTON_LORE);
-		ItemCreator.ItemCreatorBuilder permissionsMenuItem = ItemCreator.of(CompMaterial.STONE_AXE, Localization.TownMenu.PERMISSIONS_MENU_BUTTON, Localization.TownMenu.PERMISSIONS_MENU_BUTTON_LORE);
-		ItemCreator.ItemCreatorBuilder economyMenuItem = ItemCreator.of(CompMaterial.EMERALD_BLOCK, Localization.TownMenu.ECONOMY_MENU_BUTTON, Localization.TownMenu.ECONOMY_MENU_BUTTON_LORE);
-		ItemCreator.ItemCreatorBuilder plotMenuItem = ItemCreator.of(CompMaterial.WOODEN_SHOVEL, Localization.TownMenu.PLOT_MENU_BUTTON, Localization.TownMenu.PLOT_MENU_BUTTON_LORE);
-		ItemCreator.ItemCreatorBuilder settingsMenuItem = ItemCreator.of(CompMaterial.ENDER_CHEST, Localization.TownMenu.GENERAL_SETTINGS_MENU_BUTTON, Localization.TownMenu.GENERAL_SETTINGS_MENU_BUTTON_LORE);
-		ItemCreator.ItemCreatorBuilder inviteMenuItem = ItemCreator.of(CompMaterial.BELL, Localization.TownMenu.INVITE_PLAYER_MENU_BUTTON, Localization.TownMenu.INVITE_PLAYER_MENU_BUTTON_LORE);
-		ItemCreator.ItemCreatorBuilder extraInfoItem = ItemCreator.of(CompMaterial.ENCHANTED_BOOK, Localization.TownMenu.EXTRA_INFO_MENU_BUTTON, Localization.TownMenu.EXTRA_INFO_MENU_BUTTON_LORE);
+
+		ItemCreator toggleMenuItem = ItemCreator.of(CompMaterial.LEVER, Localization.TownMenu.TOGGLE_MENU_BUTTON, Localization.TownMenu.TOGGLE_MENU_BUTTON_LORE);
+		ItemCreator residentListItem = ItemCreator.of(CompMaterial.PLAYER_HEAD, Localization.TownMenu.RESIDENT_MENU_BUTTON, Localization.TownMenu.RESIDENT_MENU_BUTTON_LORE);
+		ItemCreator permissionsMenuItem = ItemCreator.of(CompMaterial.STONE_AXE, Localization.TownMenu.PERMISSIONS_MENU_BUTTON, Localization.TownMenu.PERMISSIONS_MENU_BUTTON_LORE);
+		ItemCreator economyMenuItem = ItemCreator.of(CompMaterial.EMERALD_BLOCK, Localization.TownMenu.ECONOMY_MENU_BUTTON, Localization.TownMenu.ECONOMY_MENU_BUTTON_LORE);
+		ItemCreator plotMenuItem = ItemCreator.of(CompMaterial.WOODEN_SHOVEL, Localization.TownMenu.PLOT_MENU_BUTTON, Localization.TownMenu.PLOT_MENU_BUTTON_LORE);
+		ItemCreator settingsMenuItem = ItemCreator.of(CompMaterial.ENDER_CHEST, Localization.TownMenu.GENERAL_SETTINGS_MENU_BUTTON, Localization.TownMenu.GENERAL_SETTINGS_MENU_BUTTON_LORE);
+		ItemCreator inviteMenuItem = ItemCreator.of(CompMaterial.BELL, Localization.TownMenu.INVITE_PLAYER_MENU_BUTTON, Localization.TownMenu.INVITE_PLAYER_MENU_BUTTON_LORE);
+		ItemCreator extraInfoItem = ItemCreator.of(CompMaterial.ENCHANTED_BOOK, Localization.TownMenu.EXTRA_INFO_MENU_BUTTON, Localization.TownMenu.EXTRA_INFO_MENU_BUTTON_LORE);
 
 		toggleMenuButton = new ButtonMenu(new ToggleSettingsMenu(town), toggleMenuItem);
 		residentListButton = new ButtonMenu(new ResidentListMenu(residentList), residentListItem);
@@ -110,7 +109,7 @@ public class TownMenu extends Menu {
 						}
 
 						@Override
-						public ItemStack getItem() {
+					 	public ItemStack getItem() {
 							return ItemCreator.of(CompMaterial.EMERALD_BLOCK, Localization.TownMenu.ECONOMY_MENU_BUTTON, Localization.TownMenu.ECONOMY_MENU_BUTTON_LORE).build().make();
 						}
 					};
@@ -212,14 +211,17 @@ public class TownMenu extends Menu {
 		private final Button taxPercentToggle;
 
 
+		@Override
+		protected String[] getInfo() {
+			return Localization.TownMenu.ToggleMenu.INFO;
+		}
+
 		public ToggleSettingsMenu(Town town) {
 			super(TownMenu.this);
 
 			setSize(9 * 2);
 
 			setTitle(Localization.TownMenu.ToggleMenu.MENU_TITLE);
-
-			setInfo(Localization.TownMenu.ToggleMenu.INFO);
 			Button.setInfoButtonTitle(Localization.MENU_INFORMATION);
 
 			fireToggle = new Button() {
@@ -255,15 +257,14 @@ public class TownMenu extends Menu {
 				@Override
 				public void onClickedInMenu(Player player, Menu menu, ClickType click) {
 
-					town.setBANG(!town.isBANG());
+					town.setExplosion(!town.isExplosion());
 					TownyAPI.getInstance().getDataSource().saveTown(town);
 					restartMenu();
 				}
 
 				@Override
 				public ItemStack getItem() {
-					return ItemCreator.of(CompMaterial.TNT, Localization.TownMenu.ToggleMenu.EXPLODE, "", town.isBANG() ? Localization.TownMenu.ToggleMenu.TOGGLE_OFF : Localization.TownMenu.ToggleMenu.TOGGLE_OFF).build().make();
-
+					return ItemCreator.of(CompMaterial.TNT, Localization.TownMenu.ToggleMenu.EXPLODE, "", town.isExplosion() ? Localization.TownMenu.ToggleMenu.TOGGLE_OFF : Localization.TownMenu.ToggleMenu.TOGGLE_ON).make();
 				}
 			};
 			pvpToggle = new Button() {
@@ -273,7 +274,7 @@ public class TownMenu extends Menu {
 					if (TownySettings.getOutsidersPreventPVPToggle()) {
 						Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
 						for (Player onlinePlayer : onlinePlayers) {
-							Resident onlinePlayerAsRes = TownyAPI.getInstance().getDataSource().getResident(onlinePlayer.getName());
+							Resident onlinePlayerAsRes = TownyAPI.getInstance().getResident(onlinePlayer.getUniqueId());
 							if (onlinePlayerAsRes.hasTown()) {
 								if (!onlinePlayerAsRes.getTown().equals(town))
 									if (TownyAPI.getInstance().getTownBlock(onlinePlayer.getLocation()) != null)
@@ -385,10 +386,14 @@ public class TownMenu extends Menu {
 	public class ResidentListMenu extends MenuPagged<Resident> {
 
 
+		@Override
+		protected String[] getInfo() {
+			return Localization.TownMenu.ResidentMenu.INFO;
+		}
+
 		protected ResidentListMenu(Iterable<Resident> pages) {
 			super(TownMenu.this, pages);
 			setTitle(Localization.TownMenu.ResidentMenu.MENU_TITLE);
-			setInfo(Localization.TownMenu.ResidentMenu.INFO);
 			Button.setInfoButtonTitle(Localization.MENU_INFORMATION);
 		}
 
@@ -396,7 +401,7 @@ public class TownMenu extends Menu {
 		protected ItemStack convertToItemStack(Resident item) {
 			ItemStack itemSkull = new ItemStack(Material.PLAYER_HEAD, 1);
 			SkullMeta skull = (SkullMeta) itemSkull.getItemMeta();
-			skull.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + item.getFormattedTitleName());
+			skull.setDisplayName(ChatColor.YELLOW.toString() + ChatColor.BOLD + item.getFormattedTitleName());
 			if (item.getUUID() == null)
 				return null;
 			OfflinePlayer player = Bukkit.getOfflinePlayer(item.getUUID());
@@ -491,10 +496,14 @@ public class TownMenu extends Menu {
 		private final Button allOnButton;
 
 
+		@Override
+		protected String[] getInfo() {
+			return Localization.TownMenu.PlayerPermissionsMenu.INFO;
+		}
+
 		protected TownyPermMenu(Town town) {
 			super(TownMenu.this);
 			setSize(9 * 6);
-			setInfo(Localization.TownMenu.PlayerPermissionsMenu.INFO);
 			setTitle(Localization.TownMenu.PlayerPermissionsMenu.MENU_TITLE);
 			Button.setInfoButtonTitle(Localization.MENU_INFORMATION);
 
@@ -866,10 +875,15 @@ public class TownMenu extends Menu {
 		private final Button townBoardButton;
 		private final Button townNameButton;
 
+
+		@Override
+		protected String[] getInfo() {
+			return Localization.TownMenu.GeneralSettingsMenu.INFO;
+		}
+
 		protected GeneralSettingsMenu(Town town) {
 			super(TownMenu.this);
 			setSize(9 * 2);
-			setInfo(Localization.TownMenu.GeneralSettingsMenu.INFO);
 			setTitle(Localization.TownMenu.GeneralSettingsMenu.MENU_TITLE);
 			Button.setInfoButtonTitle(Localization.MENU_INFORMATION);
 
@@ -963,17 +977,8 @@ public class TownMenu extends Menu {
 
 		@Override
 		public ItemStack getItemAt(int slot) {
-			if (slot == 1)
-				return setHomeBlockButton.getItem();
-			if (slot == 3)
-				return setSpawnButton.getItem();
-			if (slot == 5)
-				return townNameButton.getItem();
-			if (slot == 7)
-				return townBoardButton.getItem();
-
-			return null;
-		}
+            return getItemStackInFourths(slot, setHomeBlockButton, setSpawnButton, townNameButton, townBoardButton);
+        }
 	}
 
 	public class InvitePlayerMenu extends MenuPagged<Resident> {

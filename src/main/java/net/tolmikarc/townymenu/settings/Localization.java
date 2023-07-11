@@ -43,7 +43,7 @@ public class Localization extends SimpleLocalization {
 		public static Collection<String> PLOT_MENU_BUTTON_LORE;
 
 		private static void init() {
-			pathPrefix("Town_Menu");
+			setPathPrefix("Town_Menu");
 
 			MAIN_MENU_TITLE = getString("Main_Menu_Title");
 			TOGGLE_MENU_BUTTON = getString("Toggle_Menu_Button");
@@ -79,7 +79,7 @@ public class Localization extends SimpleLocalization {
 
 
 			private static void init() {
-				pathPrefix("Toggle_Menu");
+				setPathPrefix("Toggle_Menu");
 
 				MENU_TITLE = getString("Menu_Title");
 				INFO = getStringList("Info").toArray(new String[0]);
@@ -110,7 +110,7 @@ public class Localization extends SimpleLocalization {
 			public static Collection<String> MAYOR_LORE;
 
 			private static void init() {
-				pathPrefix("Resident_Menu");
+				setPathPrefix("Resident_Menu");
 				MENU_TITLE = getString("Menu_Title");
 				INFO = getStringList("Info").toArray(new String[0]);
 				ONLINE = getString("Online");
@@ -180,7 +180,7 @@ public class Localization extends SimpleLocalization {
 
 
 			private static void init() {
-				pathPrefix("Player_Permission_Menu");
+				setPathPrefix("Player_Permission_Menu");
 				MENU_TITLE = getString("Menu_Title");
 				INFO = getStringList("Info").toArray(new String[0]);
 				TRUE_MSG = getString("True_Msg");
@@ -249,7 +249,7 @@ public class Localization extends SimpleLocalization {
 			public static String TAX_AMOUNT;
 
 			private static void init() {
-				pathPrefix("Economy_Menu");
+				setPathPrefix("Economy_Menu");
 
 				MENU_TITLE = getString("Menu_Title");
 				BALANCE = getString("Balance");
@@ -282,7 +282,7 @@ public class Localization extends SimpleLocalization {
 			public static Collection<String> SET_BOARD_LORE;
 
 			private static void init() {
-				pathPrefix("General_Settings_Menu");
+				setPathPrefix("General_Settings_Menu");
 
 				MENU_TITLE = getString("Menu_Title");
 				INFO = getStringList("Info").toArray(new String[0]);
@@ -309,7 +309,7 @@ public class Localization extends SimpleLocalization {
 			public static Collection<String> COMMANDS_LORE;
 
 			private static void init() {
-				pathPrefix("Extra_Info_Menu");
+				setPathPrefix("Extra_Info_Menu");
 
 				CLAIMING = getString("Claiming");
 				CLAIMING_LORE = getStringList("Claiming_Lore");
@@ -337,7 +337,7 @@ public class Localization extends SimpleLocalization {
 
 
 		private static void init() {
-			pathPrefix("Plot_Menu");
+			setPathPrefix("Plot_Menu");
 			MAIN_MENU_TITLE = getString("Main_Menu_Title");
 			TOGGLE_SETTINGS_MENU_BUTTON = getString("Toggle_Settings_Menu_Button");
 			TOGGLE_SETTINGS_MENU_BUTTON_LORE = getStringList("Toggle_Settings_Menu_Button_Lore").toArray(new String[0]);
@@ -359,7 +359,7 @@ public class Localization extends SimpleLocalization {
 
 
 			private static void init() {
-				pathPrefix("Friend_Menu");
+				setPathPrefix("Friend_Menu");
 				MENU_TITLE = getString("Menu_Title");
 				REMOVE = getString("Remove");
 				ADD = getString("Add");
@@ -380,7 +380,7 @@ public class Localization extends SimpleLocalization {
 
 
 			private static void init() {
-				pathPrefix("Plot_Toggle_Menu");
+				setPathPrefix("Plot_Toggle_Menu");
 
 				MENU_TITLE = getString("Menu_Title");
 				INFO = getStringList("Info").toArray(new String[0]);
@@ -447,7 +447,7 @@ public class Localization extends SimpleLocalization {
 
 
 			private static void init() {
-				pathPrefix("Plot_Player_Permission_Menu");
+				setPathPrefix("Plot_Player_Permission_Menu");
 				MENU_TITLE = getString("Menu_Title");
 				INFO = getStringList("Info").toArray(new String[0]);
 				TRUE_MSG = getString("True_Msg");
@@ -516,7 +516,7 @@ public class Localization extends SimpleLocalization {
 
 
 			private static void init() {
-				pathPrefix("Plot_Admin_Menu");
+				setPathPrefix("Plot_Admin_Menu");
 				MENU_TITLE = getString("Menu_Title");
 				FOR_SALE = getString("For_Sale");
 				FOR_SALE_LORE = getStringList("For_Sale_Lore").toArray(new String[0]);
@@ -544,7 +544,7 @@ public class Localization extends SimpleLocalization {
 			public static String RESPONSE;
 
 			private static void init() {
-				pathPrefix("Town_Conversables.Board");
+				setPathPrefix("Town_Conversables.Board");
 				PROMPT = getString("Prompt");
 				RESPONSE = getString("Response");
 			}
@@ -556,7 +556,7 @@ public class Localization extends SimpleLocalization {
 			public static String RESPONSE;
 
 			private static void init() {
-				pathPrefix("Town_Conversables.Deposit");
+				setPathPrefix("Town_Conversables.Deposit");
 				PROMPT = getString("Prompt");
 				INVALID = getString("Invalid");
 				RESPONSE = getString("Response");
@@ -568,7 +568,7 @@ public class Localization extends SimpleLocalization {
 			public static String RESPONSE;
 
 			private static void init() {
-				pathPrefix("Town_Conversables.Mayor");
+				setPathPrefix("Town_Conversables.Mayor");
 				PROMPT = getString("Prompt");
 				RESPONSE = getString("Response");
 			}
@@ -579,7 +579,7 @@ public class Localization extends SimpleLocalization {
 			public static String RESPONSE;
 
 			private static void init() {
-				pathPrefix("Town_Conversables.Kick");
+				setPathPrefix("Town_Conversables.Kick");
 				PROMPT = getString("Prompt");
 				RESPONSE = getString("Response");
 			}
@@ -592,7 +592,7 @@ public class Localization extends SimpleLocalization {
 			public static String RETURN;
 
 			private static void init() {
-				pathPrefix("Town_Conversables.Name");
+				setPathPrefix("Town_Conversables.Name");
 				PROMPT = getString("Prompt");
 				INVALID = getString("Invalid");
 				RESPONSE = getString("Response");
@@ -608,7 +608,7 @@ public class Localization extends SimpleLocalization {
 			public static String REMOVED_ALL;
 
 			private static void init() {
-				pathPrefix("Town_Conversables.Rank");
+				setPathPrefix("Town_Conversables.Rank");
 				PROMPT = getString("Prompt");
 				INVALID = getString("Invalid");
 				RESPONSE = getString("Response");
@@ -625,7 +625,7 @@ public class Localization extends SimpleLocalization {
 			public static String RESPONSE_PERCENT;
 
 			private static void init() {
-				pathPrefix("Town_Conversables.Tax");
+				setPathPrefix("Town_Conversables.Tax");
 				PROMPT = getString("Prompt");
 				INVALID_AMOUNT = getString("Invalid_Amount");
 				INVALID_PERCENT = getString("Invalid_Percent");
@@ -639,7 +639,7 @@ public class Localization extends SimpleLocalization {
 			public static String RESPONSE;
 
 			private static void init() {
-				pathPrefix("Town_Conversables.Title");
+				setPathPrefix("Town_Conversables.Title");
 				PROMPT = getString("Prompt");
 				RESPONSE = getString("Response");
 			}
@@ -651,7 +651,7 @@ public class Localization extends SimpleLocalization {
 			public static String RESPONSE;
 
 			private static void init() {
-				pathPrefix("Town_Conversables.Withdraw");
+				setPathPrefix("Town_Conversables.Withdraw");
 				PROMPT = getString("Prompt");
 				INVALID = getString("Invalid");
 				RESPONSE = getString("Response");
@@ -669,7 +669,7 @@ public class Localization extends SimpleLocalization {
 			public static String RESPONSE;
 
 			private static void init() {
-				pathPrefix("Plot_Conversables.Evict");
+				setPathPrefix("Plot_Conversables.Evict");
 				PROMPT = getString("Prompt");
 				INVALID = getString("Invalid");
 				RESPONSE = getString("Response");
@@ -682,7 +682,7 @@ public class Localization extends SimpleLocalization {
 			public static String RESPONSE;
 
 			private static void init() {
-				pathPrefix("Plot_Conversables.For_Sale");
+				setPathPrefix("Plot_Conversables.For_Sale");
 				PROMPT = getString("Prompt");
 				INVALID = getString("Invalid");
 				RESPONSE = getString("Response");
@@ -694,7 +694,7 @@ public class Localization extends SimpleLocalization {
 			public static String RESPONSE;
 
 			private static void init() {
-				pathPrefix("Plot_Conversables.Evict");
+				setPathPrefix("Plot_Conversables.Evict");
 				PROMPT = getString("Prompt");
 				RESPONSE = getString("Response");
 			}
@@ -706,7 +706,7 @@ public class Localization extends SimpleLocalization {
 			public static String RESPONSE;
 
 			private static void init() {
-				pathPrefix("Plot_Conversables.Set_Type");
+				setPathPrefix("Plot_Conversables.Set_Type");
 				PROMPT = getString("Prompt");
 				INVALID = getString("Invalid");
 				RESPONSE = getString("Response");
@@ -734,7 +734,7 @@ public class Localization extends SimpleLocalization {
 		public static String CANNOT_CHANGE_BOARD;
 
 		private static void init() {
-			pathPrefix("Error");
+			setPathPrefix("Error");
 
 			NO_PERMISSION = getString("No_Permission");
 			NO_TOWN = getString("No_Town");

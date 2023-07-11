@@ -21,11 +21,6 @@ public class PlotMenuCommand extends SimpleCommand {
 	protected void onCommand() {
 		checkConsole();
 
-		if (TownyAPI.getInstance().isWarTime()) {
-			tell(Localization.Error.WAR_TIME);
-			return;
-		}
-
 		Resident resident = TownyAPI.getInstance().getResident(getPlayer().getName());
 		if (TownyAPI.getInstance().getTownBlock(getPlayer().getLocation()) != null) {
 			TownBlock townBlock = TownyAPI.getInstance().getTownBlock(getPlayer().getLocation());

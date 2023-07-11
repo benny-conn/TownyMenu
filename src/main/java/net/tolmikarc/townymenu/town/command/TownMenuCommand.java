@@ -20,13 +20,8 @@ public class TownMenuCommand extends SimpleCommand {
 	protected void onCommand() {
 		checkConsole();
 
-		if (TownyAPI.getInstance().isWarTime()) {
-			tell(Localization.Error.WAR_TIME);
-			return;
-		}
-
 		Town town;
-		Resident resident = TownyAPI.getInstance().getDataSource().getResident(getPlayer().getName());
+		Resident resident = TownyAPI.getInstance().getResident(getPlayer().getUniqueId());
 		if (resident.hasTown()) {
 			town = resident.getTown();
 			if (town.getMayor().equals(resident))

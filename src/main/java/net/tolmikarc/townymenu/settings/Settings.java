@@ -13,7 +13,8 @@ public class Settings extends SimpleSettings {
 	public static Boolean ECONOMY_ENABLED;
 
 	private static void init() {
-		pathPrefix(null);
+		setPathPrefix(null);
+
 
 		MONEY_SYMBOL = getString("Money_Symbol");
 		ECONOMY_ENABLED = getBoolean("Economy");

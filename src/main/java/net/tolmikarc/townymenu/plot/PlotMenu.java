@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.Nullable;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.menu.Menu;
 import org.mineacademy.fo.menu.MenuPagged;
@@ -26,10 +27,7 @@ import org.mineacademy.fo.menu.button.ButtonMenu;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class PlotMenu extends Menu {
 
@@ -47,11 +45,7 @@ public class PlotMenu extends Menu {
 
 		Set<Resident> onlineResidents = new HashSet<>();
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			try {
-				onlineResidents.add(TownyAPI.getInstance().getDataSource().getResident(player.getName()));
-			} catch (NotRegisteredException e) {
-				e.printStackTrace();
-			}
+			onlineResidents.add(TownyAPI.getInstance().getResident(player.getUniqueId()));
 		}
 
 		toggleSettingsMenu = new ButtonMenu(new PlotToggleSettingsMenu(townBlock), CompMaterial.LEVER, Localization.PlotMenu.TOGGLE_SETTINGS_MENU_BUTTON, Localization.PlotMenu.TOGGLE_SETTINGS_MENU_BUTTON_LORE);
@@ -68,17 +62,22 @@ public class PlotMenu extends Menu {
 
 	@Override
 	public ItemStack getItemAt(int slot) {
+		return getItemStackInFourths(slot, toggleSettingsMenu, permMenuButton, plotAdministrationMenuButton, friendButton);
+	}
+
+	@Nullable
+	public static ItemStack getItemStackInFourths(int slot, Button first, Button second, Button third, Button fourth) {
 		if (slot == 1)
-			return toggleSettingsMenu.getItem();
+			return first.getItem();
 
 		if (slot == 3)
-			return permMenuButton.getItem();
+			return second.getItem();
 
 		if (slot == 5)
-			return plotAdministrationMenuButton.getItem();
+			return third.getItem();
 
 		if (slot == 7)
-			return friendButton.getItem();
+			return fourth.getItem();
 
 		return null;
 	}
@@ -102,11 +101,7 @@ public class PlotMenu extends Menu {
 			skull.setOwningPlayer(player);
 			List<String> lore = new ArrayList<>();
 			lore.add("");
-			try {
-				lore.add(item.getFriends().contains(TownyAPI.getInstance().getDataSource().getResident(getViewer().getName())) ? ChatColor.RED + "Remove Friend" : ChatColor.YELLOW + "Add Friend");
-			} catch (NotRegisteredException e) {
-				e.printStackTrace();
-			}
+			lore.add(item.getFriends().contains(TownyAPI.getInstance().getResident(getViewer().getUniqueId())) ? ChatColor.RED + "Remove Friend" : ChatColor.YELLOW + "Add Friend");
 			skull.setLore(lore);
 			itemSkull.setItemMeta(skull);
 			return itemSkull;
@@ -116,7 +111,7 @@ public class PlotMenu extends Menu {
 		@Override
 		protected void onPageClick(Player player, Resident item, ClickType click) {
 
-			Resident playerResident = TownyAPI.getInstance().getDataSource().getResident(player.getName());
+			Resident playerResident = TownyAPI.getInstance().getResident(player.getUniqueId());
 
 			if (item.equals(playerResident))
 				return;
@@ -140,14 +135,17 @@ public class PlotMenu extends Menu {
 		private final Button pvpToggle;
 
 
+		@Override
+		protected String[] getInfo() {
+			return Localization.PlotMenu.ToggleMenu.INFO;
+		}
+
 		public PlotToggleSettingsMenu(TownBlock townBlock) {
 			super(PlotMenu.this);
 
 			setSize(9 * 2);
 
 			setTitle(Localization.PlotMenu.ToggleMenu.MENU_TITLE);
-
-			setInfo(Localization.PlotMenu.ToggleMenu.INFO);
 			Button.setInfoButtonTitle(Localization.MENU_INFORMATION);
 
 			fireToggle = new Button() {
@@ -229,16 +227,7 @@ public class PlotMenu extends Menu {
 		@Override
 		public ItemStack getItemAt(int slot) {
 
-			if (slot == 1)
-				return fireToggle.getItem();
-			if (slot == 3)
-				return mobsToggle.getItem();
-			if (slot == 5)
-				return explosionToggle.getItem();
-			if (slot == 7)
-				return pvpToggle.getItem();
-
-			return null;
+			return getItemStackInFourths(slot, fireToggle, mobsToggle, explosionToggle, pvpToggle);
 		}
 	}
 
@@ -273,10 +262,15 @@ public class PlotMenu extends Menu {
 		private final Button allOnButton;
 
 
+		@Override
+		protected String[] getInfo() {
+			return Localization.PlotMenu.PlayerPermissionsMenu.INFO;
+		}
+
 		protected PlotPermMenu(TownBlock townBlock) {
 			super(PlotMenu.this);
 			setSize(9 * 6);
-			setInfo(Localization.PlotMenu.PlayerPermissionsMenu.INFO);
+
 			setTitle(Localization.PlotMenu.PlayerPermissionsMenu.MENU_TITLE);
 			Button.setInfoButtonTitle(Localization.MENU_INFORMATION);
 
